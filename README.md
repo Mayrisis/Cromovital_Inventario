@@ -35,4 +35,6 @@ El programa es una demostración en memoria. Al cerrar la aplicación, los cambi
 
 ## GitHub
 
-Este proyecto está preparado para una rama local `feature/inventario-cromovital` y un primer commit. Para publicar en una cuenta de GitHub, crea un repositorio vacío y configura su URL como remoto; las instrucciones oficiales están en la bibliografía del documento. No incluyas contraseñas ni tokens en los archivos.
+Repositorio privado: <https://github.com/Mayrisis/Cromovital_Inventario>
+
+La rama de trabajo publicada es `feature/inventario-cromovital`. El historial incluye el commit inicial del inventario. No incluyas contraseñas ni tokens en los archivos.
