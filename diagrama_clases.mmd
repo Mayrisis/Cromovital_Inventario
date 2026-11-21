@@ -1,0 +1,32 @@
+classDiagram
+    class Valorizable {
+        <<Protocol / interfaz>>
+        +valor_inventario() float
+    }
+    class Producto {
+        <<abstract>>
+        +sku: str
+        +nombre: str
+        +precio: float
+        +existencias: int
+        +piedra: str
+        +diametro_mm: int
+        +descripcion()* str
+        +valor_inventario() float
+        +agregar_existencias(cantidad) void
+        +vender(cantidad) void
+    }
+    class PulseraAmatista
+    class PulseraCuarzoRosa
+    class PulseraObsidiana
+    class Inventario {
+        +registrar(producto) void
+        +buscar(sku) Producto
+        +listar() list
+        +valor_total() float
+    }
+    Producto ..|> Valorizable : cumple el contrato
+    Producto <|-- PulseraAmatista
+    Producto <|-- PulseraCuarzoRosa
+    Producto <|-- PulseraObsidiana
+    Inventario o-- Producto : administra
