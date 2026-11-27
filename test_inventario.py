@@ -1,6 +1,8 @@
 """Pruebas automatizadas de inventario y comportamiento polimórfico."""
 
 import unittest
+from pathlib import Path
+from tempfile import TemporaryDirectory
 
 from inventario import (
     Inventario,
@@ -55,6 +57,35 @@ class PruebasInventario(unittest.TestCase):
             PulseraAmatista("A", "Amatista", -1, 2, "Amatista")
         with self.assertRaises(ValueError):
             PulseraAmatista("B", "Amatista", 100, -1, "Amatista")
+
+    def test_venta_registra_movimiento_y_descuenta_stock(self):
+        inventario = crear_inventario_demo()
+        total = inventario.vender("CRO-001", 2)
+        self.assertEqual(total, 560.0)
+        self.assertEqual(inventario.buscar("CRO-001").existencias, 10)
+        self.assertEqual(inventario.historial()[-1]["tipo"], "VENTA")
+
+    def test_entrada_registra_movimiento_y_aumenta_stock(self):
+        inventario = crear_inventario_demo()
+        inventario.registrar_entrada("CRO-002", 3)
+        self.assertEqual(inventario.buscar("CRO-002").existencias, 11)
+        self.assertEqual(inventario.historial()[-1]["tipo"], "ENTRADA")
+
+    def test_no_registra_venta_si_el_stock_no_alcanza(self):
+        inventario = crear_inventario_demo()
+        with self.assertRaises(ValueError):
+            inventario.vender("CRO-003", 99)
+        self.assertEqual(inventario.historial(), [])
+
+    def test_persistencia_conserva_productos_y_movimientos(self):
+        inventario = crear_inventario_demo()
+        inventario.vender("CRO-001", 1)
+        with TemporaryDirectory() as carpeta:
+            archivo = Path(carpeta) / "datos.json"
+            inventario.guardar(archivo)
+            recuperado = Inventario.cargar(archivo)
+        self.assertEqual(recuperado.buscar("CRO-001").existencias, 11)
+        self.assertEqual(recuperado.historial()[0]["tipo"], "VENTA")
 
 
 if __name__ == "__main__":

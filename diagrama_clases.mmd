@@ -24,6 +24,11 @@ classDiagram
         +buscar(sku) Producto
         +listar() list
         +valor_total() float
+        +registrar_entrada(sku, cantidad) void
+        +vender(sku, cantidad) float
+        +historial() list
+        +guardar(archivo) void
+        +cargar(archivo)$ Inventario
     }
     Producto ..|> Valorizable : cumple el contrato
     Producto <|-- PulseraAmatista
